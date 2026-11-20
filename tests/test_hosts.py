@@ -50,3 +50,12 @@ def test_overlap_is_symmetric_where_selection_is_not():
     assert rig.overlaps(sglx) and sglx.overlaps(rig)
     assert not sglx.overlaps(HostSelector.parse("rig/eye"))
     assert not rig.overlaps(HostSelector.parse("serv"))
+
+
+def test_kiosk_is_a_class_and_takes_roles():
+    assert HostSelector.parse("kiosk/host") == HostSelector("kiosk", "host")
+
+
+def test_rws_is_retired():
+    with pytest.raises(ValueError, match="unknown host class 'rws'"):
+        HostSelector.parse("rws")

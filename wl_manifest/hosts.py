@@ -4,21 +4,24 @@ Host identity belongs to `wl-stack`, whose `docs/naming.md` defines
 `<org>-<class><n>` and the rule that an institutionally licensed machine is
 `wl-*` and a personal one is `wh-*`. This module restates only the class list,
 because a selector cannot be parsed without it; everything else about hosts is
-resolved against softrepo's contract rather than defined here (spec section
+resolved against wl-stack's contract rather than defined here (spec section
 5.2).
 
 The role segment exists because a rig is not one machine. `wl-rig-eye0` and
 `wl-rig-sglx0` run different software while forming one system, so a package
 may target `rig/sglx` and a stack query may ask about `rig` and mean all of
-them. Extending softrepo's scheme to carry roles is a change set against that
+them. Extending wl-stack's scheme to carry roles is a change set against that
 repository, not a decision taken here.
+
+`rws` was retired and `kiosk` added on 2026-11-20 (wl-stack's machine-classes
+design). Classes describe form factor only; no class implies an OS.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-HOST_CLASSES: frozenset[str] = frozenset({"dws", "rws", "mws", "serv", "rig"})
+HOST_CLASSES: frozenset[str] = frozenset({"dws", "mws", "serv", "rig", "kiosk"})
 
 
 @dataclass(frozen=True)
