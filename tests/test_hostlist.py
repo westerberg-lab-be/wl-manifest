@@ -139,7 +139,7 @@ def test_not_yaml_is_h001(tmp_path):
 
 def test_load_hosts_raises_with_file_and_index(tmp_path):
     p = write(tmp_path, [DWS0, {**DWS0, "status": "bogus"}])
-    with pytest.raises(ValueError, match=r"hosts\.yaml.*1"):
+    with pytest.raises(ValueError, match=r"hosts\.yaml: entry 1:"):
         load_hosts(p)
 
 
@@ -160,6 +160,35 @@ def test_cli_exit_codes(tmp_path, capsys):
     missing = tmp_path / "nope.yaml"
     assert check_hosts_path(missing) == 2
     assert capsys.readouterr().err == f"no host list at {missing}\n"
+
+
+def test_a_directory_is_no_host_list_and_exits_2(tmp_path, capsys):
+    assert check_hosts_path(tmp_path) == 2
+    assert capsys.readouterr().err == f"no host list at {tmp_path}\n"
+
+
+def test_hosts_main_defaults_to_hosts_yaml_in_the_cwd(tmp_path, monkeypatch):
+    write(tmp_path, SPEC_EXAMPLES)
+    monkeypatch.chdir(tmp_path)
+    assert hosts_main([]) == 0
+    monkeypatch.chdir(tmp_path / "..")
+    assert hosts_main([]) == 2
+
+
+def test_an_unquoted_yaml_date_in_until_is_accepted(tmp_path):
+    p = tmp_path / "hosts.yaml"
+    p.write_text(
+        yaml.safe_dump([WH_DWS0]).replace("until: example", "until: 2027-01-01")
+    )
+    assert "until: 2027-01-01" in p.read_text()  # unquoted, so YAML makes a date
+    assert check_hosts(p) == []
+    assert load_hosts(p)[0].exceptions[0].until == "2027-01-01"
+
+
+@pytest.mark.parametrize("name", ["wl-dws01", "wl-dws00", "wl-serv-nas01"])
+def test_leading_zeros_in_the_number_are_h002(tmp_path, name):
+    sel = "serv/nas" if "nas" in name else "dws"
+    assert codes(tmp_path, [{**DWS0, "name": name, "selector": sel}]) == ["H002"]
 
 
 def test_hosts_main_takes_a_path(tmp_path):

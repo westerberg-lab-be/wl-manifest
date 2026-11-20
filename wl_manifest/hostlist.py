@@ -11,20 +11,22 @@ It reads only the one file it is given.
 
 from __future__ import annotations
 
+import datetime
 import re
 from pathlib import Path
 from typing import Literal
 
 import yaml
-from pydantic import ValidationError
+from pydantic import ValidationError, field_validator
 
 from wl_manifest.check import CheckFinding
 from wl_manifest.hosts import HOST_CLASSES, HostSelector
 from wl_manifest.models import _Tolerant
 
-# `<org>-<class><n>` or `<org>-<class>-<role><n>`. Class comes before role, so
-# `wl-sync-rig0` parses with class `sync` and is rejected as an unknown class.
-HOST_NAME = re.compile(r"^(wl|wh)-([a-z]+)(?:-([a-z]+))?([0-9]+)$")
+# `<org>-<class><n>` or `<org>-<class>-<role><n>`, numbered from 0 with no
+# leading zeros. Class comes before role, so `wl-sync-rig0` parses with class
+# `sync` and is rejected as an unknown class.
+HOST_NAME = re.compile(r"^(wl|wh)-([a-z]+)(?:-([a-z]+))?(0|[1-9][0-9]*)$")
 
 
 class HostException(_Tolerant):
@@ -34,6 +36,12 @@ class HostException(_Tolerant):
     what: str
     why: str
     until: str
+
+    @field_validator("until", mode="before")
+    @classmethod
+    def _date_as_iso(cls, v: object) -> object:
+        """An unquoted YAML date (`until: 2027-01-01`) arrives as a `date`."""
+        return v.isoformat() if isinstance(v, datetime.date) else v
 
 
 class HostEntry(_Tolerant):

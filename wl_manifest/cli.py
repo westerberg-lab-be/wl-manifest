@@ -60,7 +60,7 @@ def hosts_main(argv: list[str] | None = None) -> int:
 
 def check_hosts_path(path: Path) -> int:
     """Report on one host list and return its exit code; same format as `check_path`."""
-    if not path.exists():
+    if not path.is_file():
         print(f"no host list at {path}", file=sys.stderr)
         return 2
     return _report(path, check_hosts(path))

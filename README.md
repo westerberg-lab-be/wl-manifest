@@ -64,8 +64,8 @@ packages. Each `exceptions` entry needs `rule`, `what`, `why` and `until`.
 
 | Code | Fault |
 |---|---|
-| H001 | unreadable, not YAML, not a list, or an entry fails the schema (a file-level fault stops checking; a bad entry does not) |
-| H002 | name is not `<wl\|wh>-<class>[-<role>]<n>`, or its class is unknown |
+| H001 | unreadable, not YAML, not a list, or an entry fails the schema (a file-level fault stops checking; a bad entry does not). A bad entry whose name repeats an earlier one yields H006 as well |
+| H002 | name is not `<wl\|wh>-<class>[-<role>]<n>` (`<n>` counts from 0 and has no leading zeros), or its class is unknown |
 | H003 | name prefix differs from `owner` |
 | H004 | `selector` does not parse |
 | H005 | the name's class or role differs from the selector's |
@@ -79,8 +79,9 @@ Exit codes match `wl-check`: `0`, `1` on any error, `2` no file found.
 `wl_manifest.models` — `PackageManifest`, `ThirdPartyDep`, `Status`, and the
 schema's `Literal` aliases. `wl_manifest.hosts` — `HostSelector`, the `class`
 or `class/role` grammar host identity is written in. `wl_manifest.check` — the
-rules themselves, and `CheckFinding`. `wl_manifest.hostlist` — `HostEntry`, `load_hosts` and `check_hosts` for the host list. None of it reads a registry, because
-there isn't one here to read.
+rules themselves, and `CheckFinding`. `wl_manifest.hostlist` — `HostEntry`, `load_hosts` and
+`check_hosts` for the host list. None of it reads a registry, because there
+isn't one here to read.
 
 ## License
 

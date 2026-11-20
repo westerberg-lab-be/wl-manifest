@@ -1,6 +1,6 @@
 [project]
 name = "wl-manifest"
-version = "0.2.0"
+version = "0.2.1"
 description = "The wl.yaml contract for Westerberg Lab packages"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
