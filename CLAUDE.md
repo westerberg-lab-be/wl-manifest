@@ -7,8 +7,13 @@ regenerate it. It is true as of the commits named below and nowhere
 else, which is the point: a pin that has moved is visible here.
 
 **`wl-orchestrator`** depends on you, pinned at `cc42b473fe7435a5852964e901bcc6c4bbbc3c6f`.
-It relies on the wl.yaml schema and the host-selector grammar.
+It relies on the wl.yaml schema, the host-selector grammar and the host-list schema.
 
 The contract every package's manifest is validated against. It lives outside this repository so the lab's repositories can depend on the schema without depending on the registry, which changes far more often than the schema may. Pinned by commit rather than floating: an unpinned reference would silently change what every manifest in the lab is validated against. The dependency runs one way only — wl-manifest must never import wl-orchestrator, and CI asserts it with a recursive source scan.
+
+**`wl-stack`** depends on you, pinned at `cc42b473fe7435a5852964e901bcc6c4bbbc3c6f`.
+It relies on the host-list schema (HostEntry) and `wl-check-hosts`, which CI runs on hosts.yaml.
+
+hosts.yaml is held to a schema that lives in wl-manifest, so a change to that schema can break this repository's CI. The pin is the one in .github/workflows/manifest.yml, kept by commit so that a change in wl-manifest cannot turn this red without anything here changing.
 
 <!-- wlo:dependents:end -->
