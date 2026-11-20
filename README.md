@@ -44,12 +44,42 @@ print one per line — a level, a code (`C001`–`C012`), a message — and the
 command never raises: a malformed manifest is a finding, not a traceback.
 Exit 0 means no `error`-level finding; a lone `note` still exits 0.
 
+## Check the host list
+
+The lab's machines are listed in `hosts.yaml` in wl-stack, which owns host
+identity; this package owns the file's schema.
+
+```
+$ wl-check-hosts path/to/hosts.yaml
+path/to/hosts.yaml: no findings
+```
+
+The file is a YAML list, one entry per machine, planned and retired included.
+Fields: `name`, `selector`, `owner` (`wl` or `wh`), `os`, `status` (`planned`,
+`active`, `retired`) are required; `hardware`, `user` (a role or opaque ID,
+never a person's name), `stacks`, `develops` (`all` or a list of slugs),
+`deploys`, `notes` and `exceptions` are optional. `deploys` absent means
+everything the class's `runs_on` implies; `[]` means nothing; a list names
+packages. Each `exceptions` entry needs `rule`, `what`, `why` and `until`.
+
+| Code | Fault |
+|---|---|
+| H001 | unreadable, not YAML, not a list, or an entry fails the schema (a file-level fault stops checking; a bad entry does not) |
+| H002 | name is not `<wl\|wh>-<class>[-<role>]<n>`, or its class is unknown |
+| H003 | name prefix differs from `owner` |
+| H004 | `selector` does not parse |
+| H005 | the name's class or role differs from the selector's |
+| H006 | duplicate `name` |
+| H007 | unknown key in an entry or in one of its `exceptions` |
+
+Exit codes match `wl-check`: `0`, `1` on any error, `2` no file found.
+
 ## What's here
 
 `wl_manifest.models` — `PackageManifest`, `ThirdPartyDep`, `Status`, and the
 schema's `Literal` aliases. `wl_manifest.hosts` — `HostSelector`, the `class`
 or `class/role` grammar host identity is written in. `wl_manifest.check` — the
-rules themselves, and `CheckFinding`. None of it reads a registry, because
+rules themselves, and `CheckFinding`. `wl_manifest.hostlist` — `HostEntry`, `load_hosts` and `check_hosts` for the host list. None of it reads a registry, because
 there isn't one here to read.
 
 ## License

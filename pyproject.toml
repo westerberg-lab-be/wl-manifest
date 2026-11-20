@@ -15,6 +15,7 @@ dev = ["pytest>=8.0"]
 
 [project.scripts]
 wl-check = "wl_manifest.cli:main"
+wl-check-hosts = "wl_manifest.cli:hosts_main"
 
 [build-system]
 requires = ["setuptools>=68"]

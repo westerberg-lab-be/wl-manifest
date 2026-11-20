@@ -6,7 +6,8 @@ import argparse
 import sys
 from pathlib import Path
 
-from wl_manifest.check import check_file, has_errors
+from wl_manifest.check import CheckFinding, check_file, has_errors
+from wl_manifest.hostlist import check_hosts
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -36,12 +37,33 @@ def check_path(path: Path) -> int:
         print(f"no wl.yaml at {manifest}", file=sys.stderr)
         return 2
 
-    findings = check_file(manifest)
+    return _report(manifest, check_file(manifest))
+
+
+def _report(path: Path, findings: list[CheckFinding]) -> int:
     for finding in findings:
         print(f"{finding.level:7} {finding.code}  {finding.message}")
     if not findings:
-        print(f"{manifest}: no findings")
+        print(f"{path}: no findings")
     return 1 if has_errors(findings) else 0
+
+
+def hosts_main(argv: list[str] | None = None) -> int:
+    p = argparse.ArgumentParser(
+        prog="wl-check-hosts",
+        description="Check the lab's host list against its schema.",
+    )
+    p.add_argument("path", nargs="?", default="hosts.yaml",
+                   help="the host list (default: hosts.yaml)")
+    return check_hosts_path(Path(p.parse_args(argv).path))
+
+
+def check_hosts_path(path: Path) -> int:
+    """Report on one host list and return its exit code; same format as `check_path`."""
+    if not path.exists():
+        print(f"no host list at {path}", file=sys.stderr)
+        return 2
+    return _report(path, check_hosts(path))
 
 
 if __name__ == "__main__":

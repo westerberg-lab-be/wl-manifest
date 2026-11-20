@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from wl_manifest.check import CheckFinding, check_file, check_mapping, has_errors
+from wl_manifest.hostlist import HostEntry, check_hosts, load_hosts
 from wl_manifest.hosts import HOST_CLASSES, HostSelector
 from wl_manifest.models import (
     STABILITIES,
@@ -21,6 +22,7 @@ from wl_manifest.models import (
 
 __all__ = [
     "CheckFinding", "check_file", "check_mapping", "has_errors",
+    "HostEntry", "check_hosts", "load_hosts",
     "HOST_CLASSES", "HostSelector", "STABILITIES", "STAGES_WITH_REPO",
     "Artifact", "Consumption", "Lifecycle",
     "PackageClass", "PackageManifest", "Requirement", "Status", "ThirdPartyDep",
