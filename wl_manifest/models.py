@@ -205,7 +205,7 @@ class PackageManifest(_Tolerant):
     # Where this package is *worked on*, which is not the same thing. wl-shook
     # ships firmware and a board; nothing it produces runs on a lab host. But
     # its KiCad and its Python schematic generators run on a workstation, and
-    # softrepo's catalog carries kicad.md precisely because someone designs
+    # wl-stack's catalog carries kicad.md precisely because someone designs
     # boards there. Without this field a device package contributes nothing to
     # any stack and that catalog entry has no declared source.
     builds_on: list[str] = Field(default_factory=list)
