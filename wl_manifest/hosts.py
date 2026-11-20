@@ -1,7 +1,7 @@
 """Host selectors — `class` or `class/role`.
 
 Host identity belongs to `wl-stack`, whose `docs/naming.md` defines
-`<org>-<class><n>` and the rule that an institutionally licensed machine is
+`<org>-<class>[-<role>]<n>` and the rule that an institutionally licensed machine is
 `wl-*` and a personal one is `wh-*`. This module restates only the class list,
 because a selector cannot be parsed without it; everything else about hosts is
 resolved against wl-stack's contract rather than defined here (spec section
@@ -10,8 +10,9 @@ resolved against wl-stack's contract rather than defined here (spec section
 The role segment exists because a rig is not one machine. `wl-rig-eye0` and
 `wl-rig-sglx0` run different software while forming one system, so a package
 may target `rig/sglx` and a stack query may ask about `rig` and mean all of
-them. Extending wl-stack's scheme to carry roles is a change set against that
-repository, not a decision taken here.
+them. The roles themselves are listed in wl-stack's `docs/naming.md`, and the
+schema of the host list that names them lives in `wl_manifest.hostlist`; this
+module accepts any role.
 
 `rws` was retired and `kiosk` added on 2026-11-20 (wl-stack's machine-classes
 design). Classes describe form factor only; no class implies an OS.
