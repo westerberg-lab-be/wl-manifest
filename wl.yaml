@@ -3,7 +3,7 @@ slug: wl-manifest
 class: resource
 lifecycle: scaffolded
 visibility: public
-remote: https://github.com/jakewesterberg/wl-manifest.git
+remote: https://github.com/westerberg-lab-be/wl-manifest.git
 summary: >-
   The wl.yaml contract — schema, host selectors, and the single-package check
   every lab repository runs against its own manifest.
@@ -23,7 +23,7 @@ third_party:
       wl-orchestrator already pins.
 status:
   phase: >-
-    published at github.com/jakewesterberg/wl-manifest and installable without a
+    published at github.com/westerberg-lab-be/wl-manifest and installable without a
     credential; wl-orchestrator pins it by commit SHA the way wl-preproc pins
     wl-sync.
   next: >-

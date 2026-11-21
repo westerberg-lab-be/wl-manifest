@@ -11,7 +11,7 @@ MINIMAL = {
     "class": "pipeline",
     "lifecycle": "active",
     "visibility": "private",
-    "remote": "https://github.com/jakewesterberg/wl-preproc.git",
+    "remote": "https://github.com/westerberg-lab-be/wl-preproc.git",
     "summary": "Session preprocessing to NWB.",
 }
 
@@ -126,7 +126,7 @@ REQ_MINIMAL = {
     "class": "pipeline",
     "lifecycle": "active",
     "visibility": "private",
-    "remote": "https://github.com/jakewesterberg/wl-preproc.git",
+    "remote": "https://github.com/westerberg-lab-be/wl-preproc.git",
     "summary": "A package.",
 }
 
@@ -192,7 +192,7 @@ from wl_manifest.models import STABILITIES, Artifact, Consumption
 ART_MINIMAL = {
     "schema": 1, "slug": "wl-preproc", "class": "pipeline",
     "lifecycle": "active", "visibility": "private",
-    "remote": "https://github.com/jakewesterberg/wl-preproc.git",
+    "remote": "https://github.com/westerberg-lab-be/wl-preproc.git",
     "summary": "A package.",
 }
 
